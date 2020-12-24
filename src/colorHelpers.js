@@ -11,7 +11,7 @@ function getScale(hexColor, numberOfColors) {
   return chroma.scale(getRange(hexColor)).mode("lab").colors(numberOfColors);
 }
 
-function generatePallete(starterPallete) {
+function generatePalette(starterPallete) {
   let newPallete = {
     palleteName: starterPallete.paletteName,
     id: starterPallete.id,
@@ -40,4 +40,4 @@ function generatePallete(starterPallete) {
   return newPallete;
 }
 
-export { generatePallete };
+export { generatePalette };
