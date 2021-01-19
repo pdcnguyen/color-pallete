@@ -11,20 +11,20 @@ function getScale(hexColor, numberOfColors) {
   return chroma.scale(getRange(hexColor)).mode("lab").colors(numberOfColors);
 }
 
-function generatePalette(starterPallete) {
-  let newPallete = {
-    palleteName: starterPallete.paletteName,
-    id: starterPallete.id,
-    emoji: starterPallete.emoji,
+function generatePalette(starterPalette) {
+  let newPalette = {
+    PaletteName: starterPalette.paletteName,
+    id: starterPalette.id,
+    emoji: starterPalette.emoji,
     colors: {},
   };
   for (let level of levels) {
-    newPallete.colors[level] = [];
+    newPalette.colors[level] = [];
   }
-  for (let color of starterPallete.colors) {
+  for (let color of starterPalette.colors) {
     let scale = getScale(color.color, 10).reverse();
     for (let i in scale) {
-      newPallete.colors[levels[i]].push({
+      newPalette.colors[levels[i]].push({
         name: `${color.name} ${levels[i]}`,
         id: color.name.toLowerCase().replace(/ /g, "-"),
         hex: scale[i],
@@ -37,7 +37,7 @@ function generatePalette(starterPallete) {
     }
   }
 
-  return newPallete;
+  return newPalette;
 }
 
 export { generatePalette };
