@@ -3,17 +3,54 @@ import { Link } from "react-router-dom";
 import ColorBox from "./ColorBox";
 import Navbar from "./Navbar";
 import PaletteFooter from "./PaletteFooter";
-import './SingleColorPalette.css'
+import { withStyles } from "@material-ui/styles";
 
-export default class SingleColorPalette extends Component {
+const styles = {
+  Palette: {
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
+  },
+  colors: {
+    height: "90%",
+  },
+  goBackBox: {
+    width: "20%",
+    margin: "0 auto",
+    display: "inline-block",
+    position: "relative",
+    cursor: "pointer",
+    marginBottom: "-4px",
+    height: "50%",
+    backgroundColor: "black",
+  },
+  goBackButton: {
+    width: "100px",
+    height: "30px",
+    position: "absolute",
+    display: "inline-block",
+    top: "50%",
+    left: "50%",
+    marginLeft: "-50px",
+    marginTop: "-15px",
+    textAlign: "center",
+    outline: "none",
+    background: "rgba(255, 255, 255, 0.3)",
+    fontSize: "1rem",
+    lineHeight: "30px",
+    color: "white",
+    textTransform: "uppercase",
+    border: "none",
+    textDecoration: "none",
+  },
+};
+class SingleColorPalette extends Component {
   constructor(props) {
     super(props);
     this._shades = this.gatherShades(this.props.palette, this.props.colorId);
     this.state = { format: "hex" };
     this.changeFormat = this.changeFormat.bind(this);
   }
-
-  
 
   gatherShades(palette, colorToFilterBy) {
     let shades = [];
@@ -30,25 +67,8 @@ export default class SingleColorPalette extends Component {
     this.setState({ format: val });
   }
   render() {
-    const goBackBoxStyle = {
-      width: "100px",
-      height: "30px",
-      position: "absolute",
-      display: "inline-block",
-      top: "50%",
-      left: "50%",
-      marginLeft: "-50px",
-      marginTop: "-15px",
-      textAlign: "center",
-      outline: "none",
-      background: "rgba(255, 255, 255, 0.3)",
-      fontSize: "1rem",
-      lineHeight: "30px",
-      color: "white",
-      textTransform: "uppercase",
-      border: "none",
-      textDecoration: "none",
-    }
+    const { PaletteName, id } = this.props.palette;
+    const { classes } = this.props;
     const colorBoxes = this._shades.map((color) => (
       <ColorBox
         key={color.name}
@@ -58,16 +78,20 @@ export default class SingleColorPalette extends Component {
       />
     ));
     return (
-      <div className="SingleColorPalette Palette">
+      <div className={classes.Palette}>
         <Navbar handleChange={this.changeFormat} showingAllColors={false} />
-        <div className="Palette-colors">
+        <div className={classes.colors}>
           {colorBoxes}
-          <div className="ColorBox">
-            <Link to={`/palette/${this.props.palette.id}`} className='goBack'>Go Back</Link>
+          <div className={classes.goBackBox}>
+            <Link to={`/palette/${id}`} className={classes.goBackButton}>
+              Go Back
+            </Link>
           </div>
         </div>
-        <PaletteFooter paletteName={this.props.palette.PaletteName} />
+        <PaletteFooter paletteName={PaletteName} />
       </div>
     );
   }
 }
+
+export default withStyles(styles)(SingleColorPalette);
